@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Lambda function for vehicle registration number recognition
+Parameters:
+  envType:
+    Type: String
+Resources:
+  lambdaOcr:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ocr-${envType}
+      Handler: cloud.developing.ocr.runtime.lambda.LambdaRunner
+      Runtime: java11
+      CodeUri: ./build/distributions/ocr.zip
+      MemorySize: 512
+      Timeout: 30
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/ocr-lambda-execution-role

@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+def aws_sdk_version = '2.10.65'
+
+dependencies {
+
+    compile (
+        "software.amazon.awssdk:rekognition:${aws_sdk_version}",
+        "software.amazon.awssdk:s3:${aws_sdk_version}",
+        'com.amazonaws:aws-lambda-java-events:2.2.7',
+        "com.amazonaws:aws-lambda-java-core:1.2.0",
+        'org.json:json:20190722',
+        'org.slf4j:slf4j-simple:1.7.30'
+     )
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources              
+    into('lib') {
+        from configurations.runtime
+    }           
+}
+
+sourceCompatibility = '11'
+targetCompatibility = '11'
